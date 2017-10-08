@@ -15,11 +15,12 @@ debug_collision: $(MKDIR) $(PROG)
 $(MKDIR):
 	mkdir $(MKDIR)
 
-$(PROG): $(MKDIR)/game.o $(MKDIR)/world.o $(MKDIR)/entity.o
+$(PROG): $(MKDIR)/game.o $(MKDIR)/world.o $(MKDIR)/entity.o $(MKDIR)/math.o
 	$(CXX) $(CXXFLAGS) -o $(PROG) \
 		$(MKDIR)/game.o \
 		$(MKDIR)/world.o \
 		$(MKDIR)/entity.o \
+		$(MKDIR)/math.o \
 		$(LIBS)
 
 
@@ -31,6 +32,9 @@ $(MKDIR)/world.o: world.cpp world.h
 
 $(MKDIR)/entity.o: entity.cpp entity.h
 	$(CXX) $(CXXFLAGS) -c -o $(MKDIR)/entity.o entity.cpp
+
+$(MKDIR)/math.o: math.cpp math.h
+	$(CXX) $(CXXFLAGS) -c -o $(MKDIR)/math.o math.cpp
 
 #$(MKDIR)/main.o: main.cpp game.h
 	#$(CXX) $(CXXFLAGS) -c -o $(MKDIR)/main.o main.cpp

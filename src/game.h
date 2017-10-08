@@ -8,10 +8,16 @@
 #include"world.h"
 #include"entity.h"
 
+using sf::RenderWindow;
+using sf::VideoMode;
+
 class Game
 {
     private:
-        Window window;
+        RenderWindow window;
+        World* world;
+    //functions:
+        void run();
     public:
         Game();
 };
