@@ -10,6 +10,8 @@ Game::Game()
         ,world(World::instance())
 
 {
+    world->setTileSizeInPixels(window.getSize().x/16);
+    window.setFramerateLimit(144);
     run();
 }
 
@@ -34,6 +36,9 @@ void Game::run()
         {
             window.close();
         }
+        window.clear(sf::Color::Black);
+        Location worldLocation(7,4,255,127);
+        window.draw(world->mapDisplay(worldLocation));
         window.display();
     }
 }

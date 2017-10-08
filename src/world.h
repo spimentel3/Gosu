@@ -12,6 +12,7 @@
 
 using std::vector;
 using sf::VertexArray;
+using sf::Vector2f;
 
 class Location
 {
@@ -43,10 +44,13 @@ class World
         int zoomScale;
 
         vector<vector<int>> tileMap;
+        VertexArray tileVertices;
+        int tileSizeInPixels;
 
     public:
         static World *instance();
 
+        void setTileSizeInPixels(int pixSize);
         VertexArray mapDisplay(const Location& worldLoc);
         void loadMap(int overLvl, int mapID, int curLvl);
 

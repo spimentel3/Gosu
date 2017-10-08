@@ -7,10 +7,8 @@ MKDIR= mk
 
 all: $(MKDIR) $(PROG)
 
-debug: CXXFLAGS += -D DEBUG
-debug: $(MKDIR) $(PROG)
-debug_collision: CXXFLAGS += -D DEBUG_COLLISION
-debug_collision: $(MKDIR) $(PROG)
+maptiles: CXXFLAGS += -D maptiles
+maptiles: $(MKDIR) $(PROG)
 
 $(MKDIR):
 	mkdir $(MKDIR)
