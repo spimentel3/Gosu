@@ -28,3 +28,4 @@ void Entity::updateState()
 void Entity::render()
 {
 }
+

@@ -10,7 +10,7 @@ Game::Game()
         ,world(World::instance())
 
 {
-    world->setTileSizeInPixels(window.getSize().x/32);
+    world->setTileSizeInPixels(window.getSize().x/16);
     window.setFramerateLimit(144);
     run();
 }
@@ -51,9 +51,9 @@ void Game::run()
         {
         }
         window.clear(sf::Color::Black);
-        Location worldLocation(7,4,255,127);
+        Location worldLocation(0,0,127,127);
         float2 rel = world->meter2Pixel_Relative(worldLocation);
-        printf("%f %f\n", rel.x, rel.y);
+        //printf("%f %f\n", rel.x, rel.y);
         window.draw(world->mapDisplay(worldLocation));
         window.display();
 

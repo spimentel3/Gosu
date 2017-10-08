@@ -13,29 +13,30 @@ maptiles: $(MKDIR) $(PROG)
 $(MKDIR):
 	mkdir $(MKDIR)
 
-$(PROG): $(MKDIR)/game.o $(MKDIR)/world.o $(MKDIR)/entity.o $(MKDIR)/math.o
+$(PROG): $(MKDIR)/game.o $(MKDIR)/location.o $(MKDIR)/world.o $(MKDIR)/entity.o $(MKDIR)/math.o
 	$(CXX) $(CXXFLAGS) -o $(PROG) \
 		$(MKDIR)/game.o \
 		$(MKDIR)/world.o \
+		$(MKDIR)/location.o \
 		$(MKDIR)/entity.o \
 		$(MKDIR)/math.o \
 		$(LIBS)
 
 
-$(MKDIR)/game.o: game.cpp game.h world.h  entity.h math.h
+$(MKDIR)/game.o: game.cpp game.h world.h entity.h math.h
 	$(CXX) $(CXXFLAGS) -c -o $(MKDIR)/game.o game.cpp
 
-$(MKDIR)/world.o: world.cpp world.h
+$(MKDIR)/world.o: world.cpp world.h location.h
 	$(CXX) $(CXXFLAGS) -c -o $(MKDIR)/world.o world.cpp
+
+$(MKDIR)/location.o: location.cpp location.h
+	$(CXX) $(CXXFLAGS) -c -o $(MKDIR)/location.o location.cpp
 
 $(MKDIR)/entity.o: entity.cpp entity.h
 	$(CXX) $(CXXFLAGS) -c -o $(MKDIR)/entity.o entity.cpp
 
 $(MKDIR)/math.o: math.cpp math.h
 	$(CXX) $(CXXFLAGS) -c -o $(MKDIR)/math.o math.cpp
-
-#$(MKDIR)/main.o: main.cpp game.h
-	#$(CXX) $(CXXFLAGS) -c -o $(MKDIR)/main.o main.cpp
 
 clean:
 	rm -rf $(MKDIR) *.o $(PROG)
