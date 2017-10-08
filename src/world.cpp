@@ -19,9 +19,9 @@ Location& Location::operator-(int2& xypair)
 World::World()
     :
         aspectRatio(16,9)
-        ,zoomScale(1)
+        ,zoomScale(4)
         // x+2, y+2 because need additional render buffer column/row for offset 
-        ,tileVertices(sf::Quads, (aspectRatio.x+2) * (aspectRatio.y+2) * 4)
+        ,tileVertices(sf::Quads, (aspectRatio.x+1) * (aspectRatio.y+1)*zoomScale*zoomScale * 4)
         ,tileSizeInPixels(16)
 {
 }
@@ -87,10 +87,11 @@ VertexArray World::mapDisplay(
             //printf("%i ", i);
             sf::Vertex* quad = &tileVertices[((i) + (j)*width)*4];
             //Inside
-            printf("tilemap[%i][%i]\n",topLeftLoc.y+j, topLeftLoc.x+i);
+            //printf("tilemap[%i][%i]",topLeftLoc.y+j, topLeftLoc.x+i);
             if(topLeftLoc.x+i < tileMap[0].size() && topLeftLoc.x+i >= 0
                 && topLeftLoc.y+j < tileMap.size() && topLeftLoc.y+j >= 0)
             {
+                //printf(" is in\n");
                 quad[0].position = Vector2f(
                         i * tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels
                         ,
@@ -130,6 +131,7 @@ VertexArray World::mapDisplay(
             }
             else // We are outside of our tileMap
             {
+                //printf(" isn't in\n");
                 quad[0].position = Vector2f(
                         i * tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels
                         ,

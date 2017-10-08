@@ -12,4 +12,15 @@ class int2
         int2(int x, int y);
 };
 
+class float2
+{
+    private:
+    public:
+        float x;
+        float y;
+
+    //functions:
+        float2(float x, float y);
+};
+
 #endif

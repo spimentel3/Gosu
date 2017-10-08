@@ -10,7 +10,7 @@ Game::Game()
         ,world(World::instance())
 
 {
-    world->setTileSizeInPixels(window.getSize().x/16);
+    world->setTileSizeInPixels(window.getSize().x/64);
     window.setFramerateLimit(144);
     run();
 }

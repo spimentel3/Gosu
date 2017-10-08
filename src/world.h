@@ -41,7 +41,7 @@ class World
         static World *m_instance;
 
         int2 aspectRatio;
-        int zoomScale;
+        float zoomScale;
 
         vector<vector<int>> tileMap;
         VertexArray tileVertices;
