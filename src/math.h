@@ -9,7 +9,9 @@ class int2
         int y;
 
     //functions:
-        int2(int x, int y);
+        int2(int x=0, int y=0);
+        int2 operator*(int) const;
+        int2 operator/(int) const;
 };
 
 class float2
@@ -21,6 +23,9 @@ class float2
 
     //functions:
         float2(float x, float y);
+        float2 operator*(float) const;
+        float2 operator/(float) const;
+        float2& operator=(float2&);
 };
 
 #endif

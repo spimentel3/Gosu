@@ -28,8 +28,10 @@ class Location
 
     //functions:
         Location(int x, int y, int offsx=0, int offsy=0);
-        Location& operator-(int2& xypair);
+        Location operator-(float2 xypair) const;
 };
+
+//Location operator-(const Location& l, const int2& xypair);
 
 class World
 {       
@@ -40,12 +42,14 @@ class World
 
         static World *m_instance;
 
-        int2 aspectRatio;
+        float2 aspectRatio;
         float zoomScale;
 
         vector<vector<int>> tileMap;
         VertexArray tileVertices;
         int tileSizeInPixels;
+
+        Location topLeftLoc;
 
     public:
         static World *instance();
@@ -55,7 +59,7 @@ class World
         void loadMap(int overLvl, int mapID, int curLvl);
 
         // This function translates "meter coords" into the pixel coordinates they should take on the screen.
-        //Vector2f meter2Pixel_Relative(const Vector2f& coord);
+        float2 meter2Pixel_Relative(const Location& coord);
         // This function converts measurements from meters to pixels (used for radius conversions, etc)
         //Vector2f meter2Pixel(const Vector2f& coord);
 };

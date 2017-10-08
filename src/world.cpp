@@ -9,20 +9,29 @@ Location::Location(int x, int y, int offsx, int offsy)
 {
 }
 
-Location& Location::operator-(int2& xypair)
+Location Location::operator-(const float2 xypair) const
 {
-    x-=xypair.x;
-    y-=xypair.y;
-    return *this;
+    return Location(
+            x-xypair.x,
+            y-xypair.y);
 }
+/*
+Location operator-(const Location& l, const int2& xypair)
+{
+    return Location(
+        l.x-xypair.x,
+        l.y-xypair.y
+        );
+}*/
 
 World::World()
     :
         aspectRatio(16,9)
-        ,zoomScale(4)
+        ,zoomScale(2)
         // x+2, y+2 because need additional render buffer column/row for offset 
         ,tileVertices(sf::Quads, (aspectRatio.x+1) * (aspectRatio.y+1)*zoomScale*zoomScale * 4)
         ,tileSizeInPixels(16)
+        ,topLeftLoc(0,0)
 {
 }
 
@@ -70,11 +79,13 @@ VertexArray World::mapDisplay(
         const Location& worldLoc
     )
 {
-    Location topLeftLoc(
-        worldLoc.x - (aspectRatio.x*zoomScale)/2
-        ,
-        worldLoc.y - (aspectRatio.y*zoomScale)/2
-        );
+    topLeftLoc = worldLoc - (aspectRatio*zoomScale)/2.f;
+    //topLeftLoc.x = worldLoc.x - (aspectRatio.x*zoomScale)/2;
+    //topLeftLoc.y = worldLoc.y - (aspectRatio.y*zoomScale)/2;
+    //topLeftLoc.ox = worldLoc.ox;
+    //topLeftLoc.oy = worldLoc.oy;
+    printf("%i, %i, %i, %i\n", topLeftLoc.x, topLeftLoc.y, topLeftLoc.ox, topLeftLoc.oy);
+
     // For optimization:
         // We can duplicate textures instead of reapply to vertices
     int height = aspectRatio.y*zoomScale+1;
@@ -163,14 +174,14 @@ VertexArray World::mapDisplay(
     return tileVertices;
 }
 
-/*
-
-Location World:: meter2Pixel_Relative(const Location& worldLoc)
+float2 World:: meter2Pixel_Relative(const Location& worldLoc)
 {
-    Location screenPos(
-            0
+    printf("%f/%i - %f = %f\n",
+            (float)(worldLoc.x-topLeftLoc.x) , tileSizeInPixels , ((float)worldLoc.ox/256)*tileSizeInPixels,
+            (float)(worldLoc.x-topLeftLoc.x) / tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels);
+    float2 screenPos(
+            (float)(worldLoc.x-topLeftLoc.x) / tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels
             ,
-            0
-        )
+            (float)(worldLoc.y-topLeftLoc.y) / tileSizeInPixels - ((float)worldLoc.oy/256)*tileSizeInPixels
+        );
 }
-*/
