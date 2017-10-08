@@ -73,7 +73,7 @@ VertexArray World::mapDisplay(
     Location topLeftLoc(
         worldLoc.x - (aspectRatio.x*zoomScale)/2
         ,
-        worldLoc.y + (aspectRatio.y*zoomScale)/2
+        worldLoc.y - (aspectRatio.y*zoomScale)/2
         );
     // For optimization:
         // We can duplicate textures instead of reapply to vertices
@@ -81,58 +81,79 @@ VertexArray World::mapDisplay(
     int width = aspectRatio.x*zoomScale+1;
     for(int j=0; j<height; j++) // maybe 2
     {
+        //printf("\n%i: ",j);
         for(int i=0; i<width; i++) // maybe 2
         {
-            sf::Vertex* quad = &tileVertices[(i + j*width)*4];
+            //printf("%i ", i);
+            sf::Vertex* quad = &tileVertices[((i) + (j)*width)*4];
             //Inside
-            if(topLeftLoc.x+i < tileMap[0].size() && topLeftLoc.x+i > 0
-                && topLeftLoc.y+j < tileMap.size() && topLeftLoc.y+j > 0)
+            printf("tilemap[%i][%i]\n",topLeftLoc.y+j, topLeftLoc.x+i);
+            if(topLeftLoc.x+i < tileMap[0].size() && topLeftLoc.x+i >= 0
+                && topLeftLoc.y+j < tileMap.size() && topLeftLoc.y+j >= 0)
             {
                 quad[0].position = Vector2f(
-                        i * tileSizeInPixels - (float)worldLoc.ox/256
+                        i * tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels
                         ,
-                        j * tileSizeInPixels - (float)worldLoc.oy/256
+                        j * tileSizeInPixels - ((float)worldLoc.oy/256)*tileSizeInPixels
                         );
                 quad[1].position = Vector2f(
-                        (i+1) * tileSizeInPixels - (float)worldLoc.ox/256-1
+                        (i+1) * tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels-1
                         ,
-                        j * tileSizeInPixels - (float)worldLoc.oy/256
+                        j * tileSizeInPixels - ((float)worldLoc.oy/256)*tileSizeInPixels
                         );
                 quad[2].position = Vector2f(
-                        (i+1) * tileSizeInPixels - (float)worldLoc.ox/256-1
+                        (i+1) * tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels-1
                         ,
-                        (j+1) * tileSizeInPixels - (float)worldLoc.oy/256-1
+                        (j+1) * tileSizeInPixels - ((float)worldLoc.oy/256)*tileSizeInPixels-1
                         );
                 quad[3].position = Vector2f(
-                        i * tileSizeInPixels - (float)worldLoc.ox/256
+                        i * tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels
                         ,
-                        (j+1) * tileSizeInPixels - (float)worldLoc.oy/256-1
+                        (j+1) * tileSizeInPixels - ((float)worldLoc.oy/256)*tileSizeInPixels-1
                         );
 #ifdef maptiles
-    printf("%i,%i is at pos <%f,%f> because tileSize is %i\n",i,j,
-                        i * tileSizeInPixels - (float)worldLoc.ox/256
-                        ,
-                        (j+1) * tileSizeInPixels - (float)worldLoc.oy/256-1
-                        , tileSizeInPixels
-                    );
 #endif
-                if(tileMap[j][i] == 0)
+                if(tileMap[topLeftLoc.y+j][topLeftLoc.x+i] == 0)
                 {
                     quad[0].color = sf::Color(0,255,0);
                     quad[1].color = sf::Color(0,255,0);
                     quad[2].color = sf::Color(0,255,0);
                     quad[3].color = sf::Color(0,255,0);
                 }
-                if(tileMap[j][i] == 1)
+                if(tileMap[topLeftLoc.y+j][topLeftLoc.x+i] == 1)
                 {
-                    quad[0].color = sf::Color(199,199,0);
-                    quad[1].color = sf::Color(199,199,0);
-                    quad[2].color = sf::Color(199,199,0);
-                    quad[3].color = sf::Color(199,199,0);
+                    quad[0].color = sf::Color(199,100,0);
+                    quad[1].color = sf::Color(199,100,0);
+                    quad[2].color = sf::Color(199,100,0);
+                    quad[3].color = sf::Color(199,100,0);
                 }
             }
             else // We are outside of our tileMap
             {
+                quad[0].position = Vector2f(
+                        i * tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels
+                        ,
+                        j * tileSizeInPixels - ((float)worldLoc.oy/256)*tileSizeInPixels
+                        );
+                quad[1].position = Vector2f(
+                        (i+1) * tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels-1
+                        ,
+                        j * tileSizeInPixels - ((float)worldLoc.oy/256)*tileSizeInPixels
+                        );
+                quad[2].position = Vector2f(
+                        (i+1) * tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels-1
+                        ,
+                        (j+1) * tileSizeInPixels - ((float)worldLoc.oy/256)*tileSizeInPixels-1
+                        );
+                quad[3].position = Vector2f(
+                        i * tileSizeInPixels - ((float)worldLoc.ox/256)*tileSizeInPixels
+                        ,
+                        (j+1) * tileSizeInPixels - ((float)worldLoc.oy/256)*tileSizeInPixels-1
+                        );
+                quad[0].color = sf::Color(100,100,100);
+                quad[1].color = sf::Color(100,100,100);
+                quad[2].color = sf::Color(100,100,100);
+                quad[3].color = sf::Color(100,100,100);
             }
         }
     }

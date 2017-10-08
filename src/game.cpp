@@ -6,7 +6,7 @@ using sf::Clock;
 
 Game::Game()
     :
-        window(VideoMode(1920, 1080), "super fun game wow")
+        window(VideoMode(1600, 900), "super fun game wow")
         ,world(World::instance())
 
 {
