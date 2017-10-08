@@ -8,7 +8,7 @@ World::World()
         // x+2, y+2 because need additional render buffer column/row for offset
         ,tileVertices(sf::Quads, (aspectRatio.x+1) * (aspectRatio.y+1)*zoomScale*zoomScale * 4)
         ,tileSizeInPixels(16)
-        ,botLeftLoc(0,0)
+        ,topLeftLoc(0,0)
 {
 }
 
@@ -56,22 +56,22 @@ VertexArray World::mapDisplay(
         const Location& worldLoc
     )
 {
-    botLeftLoc = botLeft(worldLoc, (aspectRatio*zoomScale)/2.f);
+    topLeftLoc = topLeft(worldLoc, (aspectRatio*zoomScale)/2.f);
 
     if((int)aspectRatio.x%2 == 1)
     {
-        botLeftLoc.ox+=127;
+        topLeftLoc.ox+=127;
     }
     if((int)aspectRatio.y%2 == 1)
     {
-        botLeftLoc.oy-=127;
+        topLeftLoc.oy-=127;
     }
 
-    //botLeftLoc.x = worldLoc.x - (aspectRatio.x*zoomScale)/2;
-    //botLeftLoc.y = worldLoc.y - (aspectRatio.y*zoomScale)/2;
-    //botLeftLoc.ox = worldLoc.ox;
-    //botLeftLoc.oy = worldLoc.oy;
-    printf("%i, %i, %i, %i\n", botLeftLoc.x, botLeftLoc.y, botLeftLoc.ox, botLeftLoc.oy);
+    //topLeftLoc.x = worldLoc.x - (aspectRatio.x*zoomScale)/2;
+    //topLeftLoc.y = worldLoc.y - (aspectRatio.y*zoomScale)/2;
+    //topLeftLoc.ox = worldLoc.ox;
+    //topLeftLoc.oy = worldLoc.oy;
+    printf("%i, %i, %i, %i\n", topLeftLoc.x, topLeftLoc.y, topLeftLoc.ox, topLeftLoc.oy);
 
     // NOTE For optimization:
         // We can duplicate textures instead of reapply to vertices
@@ -85,32 +85,32 @@ VertexArray World::mapDisplay(
             //printf("%i ", i);
             sf::Vertex* quad = &tileVertices[((i) + (j)*width)*4];
             //Inside
-            //printf("tilemap[%i][%i]",botLeftLoc.y+j, botLeftLoc.x+i);
+            //printf("tilemap[%i][%i]",topLeftLoc.y+j, topLeftLoc.x+i);
 
             //printf(" is in\n");
             quad[0].position = Vector2f(
-                    i * tileSizeInPixels - ((float)botLeftLoc.ox/255)*tileSizeInPixels
+                    i * tileSizeInPixels - ((float)topLeftLoc.ox/255)*tileSizeInPixels
                     ,
-                    j * tileSizeInPixels - ((float)botLeftLoc.oy/255)*tileSizeInPixels
+                    j * tileSizeInPixels - ((float)topLeftLoc.oy/255)*tileSizeInPixels
                     );
             quad[1].position = Vector2f(
-                    (i+1) * tileSizeInPixels - ((float)botLeftLoc.ox/255)*tileSizeInPixels-1
+                    (i+1) * tileSizeInPixels - ((float)topLeftLoc.ox/255)*tileSizeInPixels-1
                     ,
-                    j * tileSizeInPixels - ((float)botLeftLoc.oy/255)*tileSizeInPixels
+                    j * tileSizeInPixels - ((float)topLeftLoc.oy/255)*tileSizeInPixels
                     );
             quad[2].position = Vector2f(
-                    (i+1) * tileSizeInPixels - ((float)botLeftLoc.ox/255)*tileSizeInPixels-1
+                    (i+1) * tileSizeInPixels - ((float)topLeftLoc.ox/255)*tileSizeInPixels-1
                     ,
-                    (j+1) * tileSizeInPixels - ((float)botLeftLoc.oy/255)*tileSizeInPixels-1
+                    (j+1) * tileSizeInPixels - ((float)topLeftLoc.oy/255)*tileSizeInPixels-1
                     );
             quad[3].position = Vector2f(
-                    i * tileSizeInPixels - ((float)botLeftLoc.ox/255)*tileSizeInPixels
+                    i * tileSizeInPixels - ((float)topLeftLoc.ox/255)*tileSizeInPixels
                     ,
-                    (j+1) * tileSizeInPixels - ((float)botLeftLoc.oy/255)*tileSizeInPixels-1
+                    (j+1) * tileSizeInPixels - ((float)topLeftLoc.oy/255)*tileSizeInPixels-1
                     );
 #ifdef maptiles
 #endif
-            switch (at(botLeftLoc.x+i, botLeftLoc.y+j)) {
+            switch (at(topLeftLoc.x+i, topLeftLoc.y-j)) {
                 case 1:
                 {
                     quad[0].color = sf::Color(199,100,0);
@@ -147,6 +147,7 @@ VertexArray World::mapDisplay(
 //
 int World::at(int x, int y)
 {
+    printf("%i,%i is at %i, %i\n", x,y,x,tileMap.size() - 1 - y);
     if(x < tileMap[0].size() && x >= 0
       && tileMap.size() - 1 - y < tileMap.size() && tileMap.size() - 1 - y >= 0)
     {
@@ -160,18 +161,18 @@ int World::at(int x, int y)
 float2 World:: meter2Pixel_Relative(const Location& worldLoc)
 {
     // printf("(float)(%i - %i)*%i - (float)((%d / 256)*%d) = %f\n",
-    //         worldLoc.x , botLeftLoc.x        , tileSizeInPixels ,          worldLoc.ox+1         ,tileSizeInPixels,
-    //         (float)(worldLoc.x-botLeftLoc.x) * tileSizeInPixels + ((float)(worldLoc.ox+1/256))*tileSizeInPixels);
+    //         worldLoc.x , topLeftLoc.x        , tileSizeInPixels ,          worldLoc.ox+1         ,tileSizeInPixels,
+    //         (float)(worldLoc.x-topLeftLoc.x) * tileSizeInPixels + ((float)(worldLoc.ox+1/256))*tileSizeInPixels);
     // printf("(float)(%i - %i)*%i - (float)((%d / 256)*%d) = %f\n",
-    //         worldLoc.y , botLeftLoc.y        , tileSizeInPixels ,          worldLoc.oy+1         ,tileSizeInPixels,
-    //         (float)(worldLoc.y-botLeftLoc.y) * tileSizeInPixels + ((float)(worldLoc.oy+1/256))*tileSizeInPixels);
+    //         worldLoc.y , topLeftLoc.y        , tileSizeInPixels ,          worldLoc.oy+1         ,tileSizeInPixels,
+    //         (float)(worldLoc.y-topLeftLoc.y) * tileSizeInPixels + ((float)(worldLoc.oy+1/256))*tileSizeInPixels);
     //printf("(float)(%i - %i) - ((float))%f * %i = %f\n",
-                            //worldLoc.x,botLeftLoc.x  ,  (float)worldLoc.ox/255.0f ,tileSizeInPixels,
-                    //(float)(worldLoc.x-botLeftLoc.x) - ((float)worldLoc.ox/255.0f)*tileSizeInPixels);
+                            //worldLoc.x,topLeftLoc.x  ,  (float)worldLoc.ox/255.0f ,tileSizeInPixels,
+                    //(float)(worldLoc.x-topLeftLoc.x) - ((float)worldLoc.ox/255.0f)*tileSizeInPixels);
 //
     float2 screenPos(
-            (float)(worldLoc.x-botLeftLoc.x) / tileSizeInPixels - ((float)worldLoc.ox/255)*tileSizeInPixels
+            (float)(worldLoc.x-topLeftLoc.x) / tileSizeInPixels - ((float)worldLoc.ox/255)*tileSizeInPixels
             ,
-            (float)(worldLoc.y-botLeftLoc.y) / tileSizeInPixels - ((float)worldLoc.oy/255)*tileSizeInPixels
+            (float)(worldLoc.y-topLeftLoc.y) / tileSizeInPixels - ((float)worldLoc.oy/255)*tileSizeInPixels
         );
 }

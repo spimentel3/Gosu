@@ -32,7 +32,7 @@ class World
         VertexArray tileVertices;
         int tileSizeInPixels;
 
-        Location botLeftLoc;
+        Location topLeftLoc;
 
     public:
         static World *instance();
