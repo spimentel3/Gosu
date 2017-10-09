@@ -16,6 +16,13 @@ int2 int2::operator*(int scalar) const
         y*scalar);
 }
 
+int2 int2::operator-() const
+{
+    return int2(
+        -x,
+        -y);
+}
+
 
 int2 int2::operator/(int scalar) const
 {
@@ -38,6 +45,18 @@ float2 float2::operator*(const float scalar) const
         y*scalar);
 }
 
+float2 float2::operator+(const float2 xypair) const
+{
+    return float2(
+        x+xypair.x,
+        y+xypair.y);
+}
+float2 float2::operator-() const
+{
+    return float2(
+        -x,
+        -y);
+}
 
 float2 float2::operator/(const float scalar) const
 {
@@ -47,12 +66,44 @@ float2 float2::operator/(const float scalar) const
 }
 
 
-float2& float2::operator=(float2& pairxy)
+float2& float2::operator=(const float2& pairxy)
 {
     x = pairxy.x;
     y = pairxy.y;
     return *this;
 }
+
+float2& float2::operator*=(const float scalar)
+{
+    
+    x *= scalar;
+    y *= scalar;
+    return *this;
+}
+
+float2& float2::operator+=(const float2& xypair)
+{
+    x += xypair.x;
+    y += xypair.y;
+    return *this;
+}
+
+float2& float2::operator+=(const float scalar)
+{
+    
+    x += scalar;
+    y += scalar;
+    return *this;
+}
+
+float2& float2::operator*=(const float2& xypair)
+{
+    
+    x *= xypair.x;
+    y *= xypair.y;
+    return *this;
+}
+
 Location topLeft(Location l, int2 Radius)
 {
     return Location(

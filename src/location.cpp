@@ -15,6 +15,14 @@ Location Location::operator-(const float2 xypair) const
             x-xypair.x,
             y-xypair.y);
 }
+
+
+Location Location::operator+(const float2 xypair) const
+{
+    return Location(
+            x+xypair.x,
+            y+xypair.y);
+}
 /*
 Location operator-(const Location& l, const int2& xypair)
 {

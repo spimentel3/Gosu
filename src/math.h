@@ -15,6 +15,7 @@ class int2
     //functions:
         int2(int x=0, int y=0);
         int2 operator*(int) const;
+        int2 operator-() const;     // Unary minus
         int2 operator/(int) const;
 };
 
@@ -28,8 +29,14 @@ class float2
     //functions:
         float2(float x, float y);
         float2 operator*(float) const;
+        float2 operator+(const float2) const;
+        float2 operator-() const;       // Unary minus
         float2 operator/(float) const;
-        float2& operator=(float2&);
+        float2& operator=(const float2&);
+        float2& operator*=(const float2&);
+        float2& operator+=(const float2&);
+        float2& operator+=(const float);
+        float2& operator*=(const float);
 };
 
 Location topLeft(Location, int2 Radius);

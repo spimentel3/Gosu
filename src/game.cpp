@@ -8,6 +8,7 @@ Game::Game()
     :
         window(VideoMode(1600, 900), "super fun game wow")
         ,world(World::instance())
+        ,player(0,0,0,0)
 
 {
     world->setTileSizeInPixels(window.getSize().x/16);
@@ -43,17 +44,22 @@ void Game::run()
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
+            forces.x=-1;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
+            forces.y=-1;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
+            forces.x=1;
         }
         window.clear(sf::Color::Black);
-        Location worldLocation(0,0,127,127);
-        float2 rel = world->meter2Pixel_Relative(worldLocation);
+        Location worldLocation(0,0,127,0);
+        float2 rel = world->meterLoc2PixelPos(worldLocation);
         //printf("%f %f\n", rel.x, rel.y);
+        
+        player.update(delta, forces);
         window.draw(world->mapDisplay(worldLocation));
         window.display();
 

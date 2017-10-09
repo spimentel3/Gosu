@@ -44,8 +44,8 @@ class World
         int at(int x, int y);
 
         // This function translates "meter coords" into the pixel coordinates they should take on the screen.
-        float2 meter2Pixel_Relative(const Location& coord);
+        float2 meterLoc2PixelPos(const Location& coord);
         // This function converts measurements from meters to pixels (used for radius conversions, etc)
-        //Vector2f meter2Pixel(const Vector2f& coord);
+        //Vector2f meter2PixelRad(const Vector2f& coord);
 };
 #endif

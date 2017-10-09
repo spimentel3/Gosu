@@ -67,12 +67,6 @@ VertexArray World::mapDisplay(
         topLeftLoc.oy-=127;
     }
 
-    //topLeftLoc.x = worldLoc.x - (aspectRatio.x*zoomScale)/2;
-    //topLeftLoc.y = worldLoc.y - (aspectRatio.y*zoomScale)/2;
-    //topLeftLoc.ox = worldLoc.ox;
-    //topLeftLoc.oy = worldLoc.oy;
-    printf("%i, %i, %i, %i\n", topLeftLoc.x, topLeftLoc.y, topLeftLoc.ox, topLeftLoc.oy);
-
     // NOTE For optimization:
         // We can duplicate textures instead of reapply to vertices
     int height = aspectRatio.y*zoomScale+1;
@@ -144,35 +138,50 @@ VertexArray World::mapDisplay(
     return tileVertices;
 }
 
-//
 int World::at(int x, int y)
 {
-    printf("%i,%i is at %i, %i\n", x,y,x,tileMap.size() - 1 - y);
     if(x < tileMap[0].size() && x >= 0
       && tileMap.size() - 1 - y < tileMap.size() && tileMap.size() - 1 - y >= 0)
     {
         return tileMap[tileMap.size() - 1 - y][x];
     }
-
     return -1;
 
 }
 
-float2 World:: meter2Pixel_Relative(const Location& worldLoc)
+float2 World:: meterLoc2PixelPos(const Location& worldLoc)
 {
-    // printf("(float)(%i - %i)*%i - (float)((%d / 256)*%d) = %f\n",
-    //         worldLoc.x , topLeftLoc.x        , tileSizeInPixels ,          worldLoc.ox+1         ,tileSizeInPixels,
-    //         (float)(worldLoc.x-topLeftLoc.x) * tileSizeInPixels + ((float)(worldLoc.ox+1/256))*tileSizeInPixels);
-    // printf("(float)(%i - %i)*%i - (float)((%d / 256)*%d) = %f\n",
-    //         worldLoc.y , topLeftLoc.y        , tileSizeInPixels ,          worldLoc.oy+1         ,tileSizeInPixels,
-    //         (float)(worldLoc.y-topLeftLoc.y) * tileSizeInPixels + ((float)(worldLoc.oy+1/256))*tileSizeInPixels);
-    //printf("(float)(%i - %i) - ((float))%f * %i = %f\n",
-                            //worldLoc.x,topLeftLoc.x  ,  (float)worldLoc.ox/255.0f ,tileSizeInPixels,
-                    //(float)(worldLoc.x-topLeftLoc.x) - ((float)worldLoc.ox/255.0f)*tileSizeInPixels);
-//
-    float2 screenPos(
-            (float)(worldLoc.x-topLeftLoc.x) / tileSizeInPixels - ((float)worldLoc.ox/255)*tileSizeInPixels
+    //printf("(float)(%i - %i)*%i - (float)((%d / 256)*%d) = %f\n",
+            //worldLoc.x , topLeftLoc.x        , tileSizeInPixels ,          worldLoc.ox+1         ,tileSizeInPixels,
+            //(float)(worldLoc.x-topLeftLoc.x) * tileSizeInPixels + ((float)(worldLoc.ox+1/256))*tileSizeInPixels);
+    //printf("(float)(%i - %i)*%i - (float)((%d / 256)*%d) = %f\n",
+            //worldLoc.y , topLeftLoc.y        , tileSizeInPixels ,          worldLoc.oy+1         ,tileSizeInPixels,
+            //(float)(worldLoc.y-topLeftLoc.y) * tileSizeInPixels + ((float)(worldLoc.oy+1/256))*tileSizeInPixels);
+    /*
+    printf("(float)(%i - %i)*tileSize - ((float))%f * %i = %f\n",
+            worldLoc.x
+            ,topLeftLoc.x
+            ,(float)worldLoc.ox/255
+            ,((int)aspectRatio.x%2)? (float)(worldLoc.ox+127)/255 : ((float)worldLoc.ox/255)
+            ,tileSizeInPixels
             ,
-            (float)(worldLoc.y-topLeftLoc.y) / tileSizeInPixels - ((float)worldLoc.oy/255)*tileSizeInPixels
+            (float)(worldLoc.x+topLeftLoc.x)
+            * tileSizeInPixels
+            - ((int)aspectRatio.x%2)? (float)(worldLoc.ox+127)/255 : ((float)worldLoc.ox/255)
+            * tileSizeInPixels);
+    */
+
+
+    float2 screenPos(
+            (float)(worldLoc.x-topLeftLoc.x)
+            * tileSizeInPixels
+            - (((int)aspectRatio.x%2)? (float)(worldLoc.ox+127)/255 : ((float)worldLoc.ox/255))
+            * tileSizeInPixels
+            ,
+            (float)(worldLoc.y+topLeftLoc.y)
+            * tileSizeInPixels
+            + (((int)aspectRatio.y%2)? (float)(worldLoc.oy+127)/255 : ((float)worldLoc.oy/255))
+            * tileSizeInPixels
         );
+    return screenPos;
 }

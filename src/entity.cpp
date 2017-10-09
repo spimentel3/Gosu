@@ -9,15 +9,15 @@ Entity::Entity(int x, int y, int offsx, int offsy)
 {
 }
 
-void Entity::update(int2& forcesApplied)
+void Entity::update(const float& delta, int2& forcesApplied)
 {
-    getState(forcesApplied);
+    getState(delta, forcesApplied);
     updateState();
     render();
 }
 
 
-void Entity::getState(int2& forcesApplied)
+void Entity::getState(const float& delta, int2& forcesApplied)
 {
 }
 

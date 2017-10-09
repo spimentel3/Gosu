@@ -14,14 +14,14 @@ class Entity
 
         VertexArray body;
 
-        virtual void getState(int2& forcesApplied);
+        // Everyone has their own
+        virtual void getState(const float& delta, int2& forcesApplied);
         virtual void updateState();
-        virtual void render();
+        virtual void render(); 
     public:
         Entity(int x, int y, int offsx, int offsy);
-        ~Entity();
 
-        void update(int2& forcesApplied);
+        virtual void update(const float& delta,int2& forcesApplied); //Everyone uses
         VertexArray& getBody();
 };
 #endif

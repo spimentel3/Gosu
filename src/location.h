@@ -21,6 +21,7 @@ class Location
     //functions:
         Location(int x, int y, int offsx=0, int offsy=0);
         Location operator-(float2 xypair) const;
+        Location operator+(float2 xypair) const;
 };
 
 //Location operator-(const Location& l, const int2& xypair);
