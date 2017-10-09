@@ -8,7 +8,7 @@ Game::Game()
     :
         window(VideoMode(1600, 900), "super fun game wow")
         ,world(World::instance())
-        ,player(0,0,0,0)
+        ,player(0,1,0,0)
 
 {
     world->setTileSizeInPixels(window.getSize().x/16);
@@ -55,12 +55,16 @@ void Game::run()
             forces.x=1;
         }
         window.clear(sf::Color::Black);
-        Location worldLocation(0,0,127,0);
-        float2 rel = world->meterLoc2PixelPos(worldLocation);
+        //float2 rel = world->meterLoc2PixelPos(player.getLocation());
         //printf("%f %f\n", rel.x, rel.y);
         
+
+        window.draw(world->mapDisplay(player.getLocation()));
+
+        player.broadcastState();
         player.update(delta, forces);
-        window.draw(world->mapDisplay(worldLocation));
+        player.render(window);
+
         window.display();
 
 

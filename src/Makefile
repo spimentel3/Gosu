@@ -31,7 +31,7 @@ $(PROG): $(MKDIR)/game.o \
 		$(LIBS)
 
 
-$(MKDIR)/game.o: game.cpp game.h world.h eventhandler.h entity.h math.h
+$(MKDIR)/game.o: game.cpp game.h world.h eventhandler.h entity.h math.h player.h
 	$(CXX) $(CXXFLAGS) -c -o $(MKDIR)/game.o game.cpp
 
 $(MKDIR)/world.o: world.cpp world.h location.h

@@ -2,6 +2,7 @@
 #define MATH_H
 
 #include"location.h"
+#include<iostream>
 
 class Location;
 
@@ -13,7 +14,9 @@ class int2
         int y;
 
     //functions:
-        int2(int x=0, int y=0);
+        int2(int x, int y);
+        int2(int a=0);
+        int2& operator=(int);
         int2 operator*(int) const;
         int2 operator-() const;     // Unary minus
         int2 operator/(int) const;
@@ -38,6 +41,9 @@ class float2
         float2& operator+=(const float);
         float2& operator*=(const float);
 };
+
+int ceil(float a);
+int floor(float a);
 
 Location topLeft(Location, int2 Radius);
 Location topRight(Location, int2 Radius);

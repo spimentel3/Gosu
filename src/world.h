@@ -38,13 +38,16 @@ class World
         static World *instance();
 
         void setTileSizeInPixels(int pixSize);
-        VertexArray mapDisplay(const Location& worldLoc);
+        VertexArray& mapDisplay(const Location& worldLoc);
         void loadMap(int overLvl, int mapID, int curLvl);
 
         int at(int x, int y);
 
         // This function translates "meter coords" into the pixel coordinates they should take on the screen.
         float2 meterLoc2PixelPos(const Location& coord);
+        Vector2f meterLoc2PixelPosV2f(const Location& coord);
+
+        float2 meterRad2PixelRad(const int2& radius);
         // This function converts measurements from meters to pixels (used for radius conversions, etc)
         //Vector2f meter2PixelRad(const Vector2f& coord);
 };
