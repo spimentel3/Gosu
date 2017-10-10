@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include<unistd.h>
 
 #include"math.h"
 #include"world.h"

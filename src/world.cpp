@@ -167,12 +167,12 @@ float2 World:: meterLoc2PixelPos(const Location& worldLoc)
     return float2(
             (float)(worldLoc.x-topLeftLoc.x)
             * tileSizeInPixels
-            - (((int)aspectRatio.x%2)? (float)(worldLoc.ox+127)/255 : ((float)worldLoc.ox/255))
+            - ((float)(worldLoc.ox - topLeftLoc.ox + (((int)aspectRatio.x%2)? 127: 0)) /255)
             * tileSizeInPixels
             ,
             (float)(worldLoc.y+topLeftLoc.y)
             * tileSizeInPixels
-            + (((int)aspectRatio.y%2)? (float)(worldLoc.oy+127)/255 : ((float)worldLoc.oy/255))
+            + ((float)(worldLoc.ox - topLeftLoc.ox + (((int)aspectRatio.x%2)? 127: 0)) /255)
             * tileSizeInPixels
         );
 }

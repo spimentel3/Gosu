@@ -2,7 +2,10 @@
 #define LOCATION_H
 
 #include"math.h"
+#include<assert.h>
 #include<iostream>
+
+using std::string;
 
 class float2;
 
@@ -22,6 +25,7 @@ class Location
         Location(int x, int y, int offsx=0, int offsy=0);
         Location operator-(float2 xypair) const;
         Location operator+(float2 xypair) const;
+        void print(string name="");
 };
 
 //Location operator-(const Location& l, const int2& xypair);

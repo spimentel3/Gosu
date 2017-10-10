@@ -8,7 +8,7 @@ Game::Game()
     :
         window(VideoMode(1600, 900), "super fun game wow")
         ,world(World::instance())
-        ,player(0,1,0,0)
+        ,player(0,0,0,0)
 
 {
     world->setTileSizeInPixels(window.getSize().x/16);
@@ -19,6 +19,7 @@ Game::Game()
 void Game::run()
 {
     Clock clock;
+    float last_delta=0;
     while (window.isOpen())
     {
         // check all the window's events that were triggered since the last iteration of the loop
@@ -37,6 +38,10 @@ void Game::run()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tilde))
         {
             window.close();
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::L))
+        {
+            delta/=3;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {

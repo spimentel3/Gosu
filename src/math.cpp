@@ -134,6 +134,11 @@ int floor(float a)
     return (int)a;
 }
 
+float fraction(float a)
+{
+    return a-(int)a;
+}
+
 // int2 Location functions
 
 Location topLeft(Location l, int2 Radius)

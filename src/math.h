@@ -44,6 +44,7 @@ class float2
 
 int ceil(float a);
 int floor(float a);
+float fraction(float a);
 
 Location topLeft(Location, int2 Radius);
 Location topRight(Location, int2 Radius);

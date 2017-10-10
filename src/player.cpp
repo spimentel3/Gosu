@@ -2,7 +2,7 @@
 
 Player::Player(int x, int y, int offsx, int offsy)
 :
-    Entity(x, y, offsx, offsy, 126)
+    Entity(x, y, offsx, offsy, int2(40,90))
 {
     velocity.x = 0;
     velocity.y = 0;
@@ -20,12 +20,16 @@ void Player::update(const float& delta, int2& forceDirections)
 
     if( forceDirections.x !=0 && forceDirections.y !=0 )
         forceApplied *= 0.70710678118f; // Diagonal unit vector
-    forceApplied *= 200.f; // Movement speed
-    forceApplied += -velocity*20.f; // Friction
+    printf("forceApp: %f, %f\n", forceApplied.x, forceApplied.y);
+    forceApplied *= 10.f; // Movement speed
+    //forceApplied += -velocity*20.f; // Friction
 
+    printf("forceApp: %f, %f\n", forceApplied.x, forceApplied.y);
     velocity += forceApplied*delta;
 
+    worldLoc.print("WorldLoc");
     Location newLocation = worldLoc + forceApplied*(float)pow(delta, 2)*.5f + velocity*delta;
+    newLocation.print("newLocation");
 
     // Do Checks
 
@@ -57,6 +61,7 @@ void Player::render(RenderWindow& window)
   //body[3].position = World::instance()->meterLoc2PixelPosV2f(botRight(worldLoc, radius));
 
     
+    // In cases where ox/oy are 0, seems to jump pixPos by ~100
     float2 screenPos = World::instance()->meterLoc2PixelPos(worldLoc);
     float2 screenRad = World::instance()->meterRad2PixelRad(radius);
     body[0].position = Vector2f( screenPos.x - screenRad.x, screenPos.y-screenRad.y);
@@ -64,7 +69,7 @@ void Player::render(RenderWindow& window)
     body[2].position = Vector2f( screenPos.x + screenRad.x, screenPos.y+screenRad.y);
     body[3].position = Vector2f( screenPos.x + screenRad.x, screenPos.y-screenRad.y);
     for(int i=0; i<4; i++)
-        printf("%i %i\n", body[i].position.x,body[i].position.y);
+        printf("\tBody Location[%i]: %f %f\n",i, body[i].position.x,body[i].position.y);
 
     body[0].color = sf::Color(255,0,0);
     body[1].color = sf::Color(255,0,0);
