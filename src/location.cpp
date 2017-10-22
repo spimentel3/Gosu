@@ -23,12 +23,30 @@ Location Location::operator-(const float2 xypair) const
 
 Location Location::operator+(const float2 xypair) const
 {
-    printf("xypair = %f, %f\n", xypair.x, xypair.y);
+    float new_ox = (ox + fraction(xypair.x)*255);
+    float new_oy = (oy + fraction(xypair.y)*255);
+    int new_x = x+(int)xypair.x;
+    int new_y = y+(int)xypair.y;
+
+    if(new_ox < 0){
+        new_ox += 255;
+        new_x--;
+    }
+    else if(new_ox > 255){
+        new_x++;
+    }
+    if(new_oy < 0){
+        new_oy += 255;
+        new_y--;
+    }
+    else if(new_oy > 255){
+        new_y++;
+    }
     return Location(
-            x+xypair.x + (int)((ox+fraction(xypair.x)*255)/255)
-            ,y+xypair.y + (int)((oy+fraction(xypair.y)*255)/255)
-            ,(int)(ox+fraction(xypair.x)*255) % 255
-            ,(int)(oy+fraction(xypair.y)*255) % 255
+            new_x
+            , new_y
+            , (int)new_ox % 255
+            , (int)new_oy % 255
             );
 }
 /*

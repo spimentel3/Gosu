@@ -6,6 +6,8 @@
 #include<iostream>
 
 using std::string;
+using std::endl;
+using std::cout;
 
 class float2;
 

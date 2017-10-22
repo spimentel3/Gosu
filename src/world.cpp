@@ -85,22 +85,22 @@ VertexArray& World::mapDisplay(
             quad[0].position = Vector2f(
                     i * tileSizeInPixels - ((float)topLeftLoc.ox/255)*tileSizeInPixels
                     ,
-                    j * tileSizeInPixels - ((float)topLeftLoc.oy/255)*tileSizeInPixels
+                    j * tileSizeInPixels + ((float)topLeftLoc.oy/255)*tileSizeInPixels
                     );
             quad[1].position = Vector2f(
                     (i+1) * tileSizeInPixels - ((float)topLeftLoc.ox/255)*tileSizeInPixels-1
                     ,
-                    j * tileSizeInPixels - ((float)topLeftLoc.oy/255)*tileSizeInPixels
+                    j * tileSizeInPixels + ((float)topLeftLoc.oy/255)*tileSizeInPixels
                     );
             quad[2].position = Vector2f(
                     (i+1) * tileSizeInPixels - ((float)topLeftLoc.ox/255)*tileSizeInPixels-1
                     ,
-                    (j+1) * tileSizeInPixels - ((float)topLeftLoc.oy/255)*tileSizeInPixels-1
+                    (j+1) * tileSizeInPixels + ((float)topLeftLoc.oy/255)*tileSizeInPixels-1
                     );
             quad[3].position = Vector2f(
                     i * tileSizeInPixels - ((float)topLeftLoc.ox/255)*tileSizeInPixels
                     ,
-                    (j+1) * tileSizeInPixels - ((float)topLeftLoc.oy/255)*tileSizeInPixels-1
+                    (j+1) * tileSizeInPixels + ((float)topLeftLoc.oy/255)*tileSizeInPixels-1
                     );
 #ifdef maptiles
 #endif

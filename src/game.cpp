@@ -8,7 +8,8 @@ Game::Game()
     :
         window(VideoMode(1600, 900), "super fun game wow")
         ,world(World::instance())
-        ,player(0,0,0,0)
+        ,player(12,8,0,0)
+        ,renderLocation(12,8,0,0)
 
 {
     world->setTileSizeInPixels(window.getSize().x/16);
@@ -65,6 +66,8 @@ void Game::run()
         
 
         window.draw(world->mapDisplay(player.getLocation()));
+        //renderLocation = renderLocation + float2((float)forces.x/100, (float)forces.y/100);
+        //window.draw(world->mapDisplay(renderLocation));
 
         player.broadcastState();
         player.update(delta, forces);

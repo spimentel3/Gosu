@@ -20,6 +20,9 @@ class Game
         RenderWindow window;
         World* world;
         Player player;
+        Location renderLocation;
+        int pointx,pointy;
+        int offx,offy;
     //functions:
         void run();
     public:
